@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#app {
+  font-weight: normal;
+  @apply h-screen;
+}
+
+nav {
+  @apply border-b border-vueBlue text-vueBlue bg-blue-100 font-bold;
+  @apply w-screen;
+  @apply py-4 px-10;
+  @apply flex justify-between;
+}
+
+main {
+  margin: 0 auto;
+  max-width: 1280px;
+  @apply pt-10;
+}
+
+.button,
+button[type='submit'] {
+  @apply flex items-center justify-center text-center;
+  @apply py-1 px-6;
+  @apply rounded-md;
+  @apply h-8 min-w-min;
+  @apply cursor-pointer;
+}
+
+.button-primary,
+button[type='submit'] {
+  @apply text-vueGreen font-semibold;
+  @apply border-vueGreen border;
+}
+
+.button-primary:hover {
+  @apply bg-vueGreen text-white;
+}
+
+.button-secondary {
+  @apply border-vueBlue border text-vueBlue font-bold;
+}
+
+.button-secondary:hover {
+  @apply bg-vueBlue text-white;
+}
+
+.button-large {
+  @apply py-8 px-6;
+  @apply text-2xl text-green-700;
+  @apply border-vueGreen bg-green-50 border-2;
+  /* @apply font-normal; */
+}
+
+.button-large:hover {
+  @apply py-8 px-6;
+  @apply text-2xl text-vueGreen;
+  @apply border-vueGreen bg-white border-2;
+}
+
+input {
+  @apply border-slate-500 border rounded-sm;
+  @apply h-8;
+  @apply p-2;
+}
+
+h1 {
+  @apply text-[3rem] xl:text-2xl;
+  @apply font-bold;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+h3 {
+  /* font-weight: 700; */
+  /* @apply mb-4; */
+}
