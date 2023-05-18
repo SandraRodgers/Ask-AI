@@ -1,23 +1,54 @@
 <script setup>
-import { useChatStore } from '../stores/chat'
+import { useTextChatStore } from '../stores/textChat'
+import { useAudioChatStore } from '../stores/audioChat'
+import { useImageChatStore } from '../stores/imageChat'
+const props = defineProps(['page'])
+console.log(props)
 
-const chatStore = useChatStore()
+const textChatStore = useTextChatStore()
+const audioChatStore = useAudioChatStore()
+const imageChatStore = useImageChatStore()
+
+function sendQuestion() {
+  if (props.page === 'text') {
+    textChatStore.createPrompt()
+    textChatStore.sendPrompt()
+  } else if (props.page === 'audio') {
+    audioChatStore.createPrompt()
+    audioChatStore.sendPrompt()
+  } else if (props.page === 'image') {
+    imageChatStore.createPrompt()
+    imageChatStore.sendPrompt()
+  }
+}
 </script>
 
 <template>
   <div>
     <div class="flex rounded-md shadow-sm mt-4">
       <div class="relative flex flex-grow items-stretch focus-within:z-10">
+        <!-- Condition inputs based on page prop -->
         <input
-          v-model="chatStore.question"
-          type="text"
-          name="question"
-          id="question"
-          class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          v-if="props.page === 'text'"
+          v-model="textChatStore.question"
+          class="input-button"
+          placeholder="Send a message"
+        />
+        <input
+          v-if="props.page === 'audio'"
+          v-model="audioChatStore.question"
+          class="input-button"
+          placeholder="Send a message"
+        />
+        <input
+          v-if="props.page === 'image'"
+          v-model="imageChatStore.question"
+          class="input-button"
           placeholder="Send a message"
         />
       </div>
       <button
+        @click="sendQuestion()"
         type="button"
         class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
       >
@@ -39,3 +70,9 @@ const chatStore = useChatStore()
     </div>
   </div>
 </template>
+
+<style scoped>
+.input-button {
+  @apply block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6;
+}
+</style>
