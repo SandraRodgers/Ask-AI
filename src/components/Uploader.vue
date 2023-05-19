@@ -1,17 +1,24 @@
 <script setup>
+import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
+import { useAudioChatStore } from '../stores/audioChat'
+// import { storeToRefs } from 'pinia'
+const audioChatStore = useAudioChatStore()
 const props = defineProps(['fileType'])
+// const { file } = storeToRefs(audioChatStore)
 const { files, open, reset, onChange } = useFileDialog({ accept: props.fileType })
-
-onChange((files) => {
-  /** do something with files */
+onChange((file) => {
+  if (file[0].type === 'audio/wav') {
+    audioChatStore.file.value = file
+    console.log(audioChatStore.file.value)
+  }
 })
 </script>
 
 <template>
   <div class="flex flex-col h-36">
     <div class="flex">
-      <button type="button" @click="open()" class="button button-primary w-36 mr-2">
+      <button type="button" name="file" @click="open()" class="button button-primary w-36 mr-2">
         Choose file
       </button>
       <button

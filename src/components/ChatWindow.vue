@@ -1,25 +1,24 @@
 <script setup>
 import { useTextChatStore } from '../stores/textChat'
-import { useAudioChatStore } from '../stores/audioChat'
-import { useImageChatStore } from '../stores/imageChat'
-const props = defineProps(['page'])
-console.log(props)
+// import { useAudioChatStore } from '../stores/audioChat'
+// import { useImageChatStore } from '../stores/imageChat'
+// const props = defineProps(['page'])
 
 const textChatStore = useTextChatStore()
-const audioChatStore = useAudioChatStore()
-const imageChatStore = useImageChatStore()
+// const audioChatStore = useAudioChatStore()
+// const imageChatStore = useImageChatStore()
 
 function sendQuestion() {
-  if (props.page === 'text') {
-    textChatStore.createPrompt()
-    textChatStore.sendPrompt()
-  } else if (props.page === 'audio') {
-    audioChatStore.createPrompt()
-    audioChatStore.sendPrompt()
-  } else if (props.page === 'image') {
-    imageChatStore.createPrompt()
-    imageChatStore.sendPrompt()
-  }
+  // if (props.page === 'text') {
+  textChatStore.createPrompt()
+  textChatStore.sendPrompt()
+  // } else if (props.page === 'audio') {
+  //   audioChatStore.createPrompt()
+  //   audioChatStore.sendPrompt()
+  // } else if (props.page === 'image') {
+  //   imageChatStore.createPrompt()
+  //   imageChatStore.sendPrompt()
+  // }
 }
 </script>
 
@@ -28,13 +27,8 @@ function sendQuestion() {
     <div class="flex rounded-md shadow-sm mt-4">
       <div class="relative flex flex-grow items-stretch focus-within:z-10">
         <!-- Condition inputs based on page prop -->
-        <input
-          v-if="props.page === 'text'"
-          v-model="textChatStore.question"
-          class="input-button"
-          placeholder="Send a message"
-        />
-        <input
+        <input v-model="textChatStore.question" class="input-button" placeholder="Send a message" />
+        <!-- <input
           v-if="props.page === 'audio'"
           v-model="audioChatStore.question"
           class="input-button"
@@ -45,12 +39,12 @@ function sendQuestion() {
           v-model="imageChatStore.question"
           class="input-button"
           placeholder="Send a message"
-        />
+        /> -->
       </div>
       <button
         @click="sendQuestion()"
         type="button"
-        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
+        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-green-50 text-green-500 ring-1 ring-inset ring-gray-300 hover:bg-vueGreenHover"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

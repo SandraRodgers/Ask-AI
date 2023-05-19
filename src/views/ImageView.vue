@@ -6,7 +6,7 @@ import ChatWindow from '../components/ChatWindow.vue'
 <template>
   <article class="grid grid-cols-2 gap-x-8">
     <div class="mt-4">
-      <h3>Choose an image file</h3>
+      <h3>Choose an image that you would like to ask questions about.</h3>
       <section class="my-4"><uploader fileType="image/*" /></section>
 
       <transcriber />
