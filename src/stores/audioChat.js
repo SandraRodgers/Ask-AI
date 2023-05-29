@@ -10,16 +10,19 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const transcript = ref('')
   const numQuestions = ref(1)
   const questionIncrement = ref({})
+  const tokenLength = ref(0)
+  const tokenLoading = ref(false)
+  const isTranscribing = ref(false)
+  const isLoadingGPT = ref(false)
 
   function transcribeFile() {
-    console.log('transcribe', file.value.value[0])
     if (file.value === 0) {
       alert('Please attach a file')
     } else {
       const formData = new FormData()
-      formData.append('file', file.value.value[0])
-      console.log(formData)
-      // isTranscribing.value = true;
+      console.log('file', file.value.value)
+      formData.append('file', file.value.value)
+      isTranscribing.value = true
       fetch('https://deepgram-prerecorded.sandrar.repl.co/dg-transcription', {
         method: 'POST',
         body: formData
@@ -28,7 +31,8 @@ export const useAudioChatStore = defineStore('audioChat', () => {
         .then((data) => {
           transcript.value = data.apiCall.results.channels[0].alternatives[0].transcript
           file.value = {}
-          // isTranscribing.value = false;
+          checkTokens()
+          isTranscribing.value = false
         })
     }
   }
@@ -67,7 +71,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     if (transcript.value.length === 0) {
       alert('You have not added any transcript to analyze.')
     } else {
-      // loadingGPT.value = true
+      isLoadingGPT.value = true
 
       fetch('https://OpenAI-Deepgram-Server.sandrar.repl.co/chat', {
         method: 'POST',
@@ -80,10 +84,31 @@ export const useAudioChatStore = defineStore('audioChat', () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // loadingGPT.value = false
+          isLoadingGPT.value = false
           gptResponse.value = data.message.content
         })
     }
+  }
+
+  function checkTokens() {
+    tokenLoading.value = true
+    fetch('https://OpenAI-Deepgram-Server.sandrar.repl.co/tokenize', {
+      method: 'POST',
+      body: JSON.stringify({
+        string: transcript.value
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        tokenLoading.value = false
+        tokenLength.value = data.tokens
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   return {
@@ -97,6 +122,10 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     transcribeFile,
     transcript,
     numQuestions,
-    questionIncrement
+    questionIncrement,
+    tokenLength,
+    tokenLoading,
+    isTranscribing,
+    isLoadingGPT
   }
 })

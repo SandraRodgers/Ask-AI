@@ -1,24 +1,11 @@
 <script setup>
 import { useTextChatStore } from '../stores/textChat'
-// import { useAudioChatStore } from '../stores/audioChat'
-// import { useImageChatStore } from '../stores/imageChat'
-// const props = defineProps(['page'])
-
+import Loading from './Loading.vue'
 const textChatStore = useTextChatStore()
-// const audioChatStore = useAudioChatStore()
-// const imageChatStore = useImageChatStore()
 
 function sendQuestion() {
-  // if (props.page === 'text') {
   textChatStore.createPrompt()
   textChatStore.sendPrompt()
-  // } else if (props.page === 'audio') {
-  //   audioChatStore.createPrompt()
-  //   audioChatStore.sendPrompt()
-  // } else if (props.page === 'image') {
-  //   imageChatStore.createPrompt()
-  //   imageChatStore.sendPrompt()
-  // }
 }
 </script>
 
@@ -26,20 +13,7 @@ function sendQuestion() {
   <div>
     <div class="flex rounded-md shadow-sm mt-4">
       <div class="relative flex flex-grow items-stretch focus-within:z-10">
-        <!-- Condition inputs based on page prop -->
         <input v-model="textChatStore.question" class="input-button" placeholder="Send a message" />
-        <!-- <input
-          v-if="props.page === 'audio'"
-          v-model="audioChatStore.question"
-          class="input-button"
-          placeholder="Send a message"
-        />
-        <input
-          v-if="props.page === 'image'"
-          v-model="imageChatStore.question"
-          class="input-button"
-          placeholder="Send a message"
-        /> -->
       </div>
       <button
         @click="sendQuestion()"
@@ -62,6 +36,7 @@ function sendQuestion() {
         </svg>
       </button>
     </div>
+    <loading :loadingState="textChatStore.isLoadingGPT" loadingMessage="Loading" />
   </div>
 </template>
 

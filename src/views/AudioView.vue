@@ -19,6 +19,9 @@ const audioChatStore = useAudioChatStore()
       >
         {{ audioChatStore.transcript }}
       </div>
+      <div v-if="audioChatStore.tokenLength" class="text-xs mt-1">
+        Token length: {{ audioChatStore.tokenLength }}
+      </div>
     </div>
     <div>
       <chat-window-audio page="audio" />

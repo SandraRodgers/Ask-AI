@@ -6,6 +6,7 @@ export const useTextChatStore = defineStore('textChat', () => {
   const question = ref('')
   const prompt = ref([])
   const gptResponse = ref('')
+  const isLoadingGPT = ref(false)
 
   function createPrompt() {
     // prompt items
@@ -26,7 +27,7 @@ export const useTextChatStore = defineStore('textChat', () => {
     if (text.value.length === 0) {
       alert('You have not added any text to analyze.')
     } else {
-      // loadingGPT.value = true
+      isLoadingGPT.value = true
 
       fetch('https://OpenAI-Deepgram-Server.sandrar.repl.co/chat', {
         method: 'POST',
@@ -39,11 +40,11 @@ export const useTextChatStore = defineStore('textChat', () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // loadingGPT.value = false
+          isLoadingGPT.value = false
           gptResponse.value = data.message.content
         })
     }
   }
 
-  return { text, question, prompt, createPrompt, sendPrompt, gptResponse }
+  return { text, question, prompt, createPrompt, sendPrompt, gptResponse, isLoadingGPT }
 })

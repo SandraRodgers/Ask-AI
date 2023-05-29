@@ -1,11 +1,11 @@
 <script setup>
-import { useAudioChatStore } from '../stores/audioChat'
+import { useImageChatStore } from '../stores/imageChat'
 import Loading from './Loading.vue'
 
-const audioChatStore = useAudioChatStore()
+const imageChatStore = useImageChatStore()
 
 function sendQuestion() {
-  audioChatStore.createPrompt()
+  imageChatStore.createPrompt()
 }
 </script>
 
@@ -13,15 +13,15 @@ function sendQuestion() {
   <div>
     <div class="flex rounded-md mt-4">
       <div class="relative flex flex-col flex-grow items-stretch focus-within:z-10">
-        <div v-for="(num, index) in audioChatStore.numQuestions" :key="num">
+        <div v-for="(num, index) in imageChatStore.numQuestions" :key="num">
           <div class="flex shadow-sm mt-10">
             <input
-              v-model="audioChatStore.questionIncrement[`question${index}`]"
+              v-model="imageChatStore.questionIncrement[`question${index}`]"
               class="input-button"
-              placeholder="Send a message"
+              placeholder="Ask AI about the text"
             />
             <button
-              v-if="num === audioChatStore.numQuestions"
+              v-if="num === imageChatStore.numQuestions"
               @click="sendQuestion()"
               type="button"
               class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-green-50 text-green-500 ring-1 ring-inset ring-gray-300 hover:bg-vueGreenHover"
@@ -45,7 +45,7 @@ function sendQuestion() {
         </div>
         <div class="flex justify-center">
           <button
-            @click="audioChatStore.numQuestions++"
+            @click="imageChatStore.numQuestions++"
             type="button"
             class="rounded-md text-gray-900 ring-1 hover:ring-2 ring-inset ring-gray-300 hover:font-bold px-2 shadow-sm mt-10"
           >
@@ -54,7 +54,7 @@ function sendQuestion() {
         </div>
       </div>
     </div>
-    <loading :loadingState="audioChatStore.isLoadingGPT" loadingMessage="Loading" />
+    <loading :loadingState="imageChatStore.isDescribing" loadingMessage="Loading" />
   </div>
 </template>
 

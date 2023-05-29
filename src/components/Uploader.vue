@@ -2,15 +2,14 @@
 import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { useAudioChatStore } from '../stores/audioChat'
-// import { storeToRefs } from 'pinia'
 const audioChatStore = useAudioChatStore()
 const props = defineProps(['fileType'])
-// const { file } = storeToRefs(audioChatStore)
 const { files, open, reset, onChange } = useFileDialog({ accept: props.fileType })
+
 onChange((file) => {
   if (file[0].type === 'audio/wav') {
-    audioChatStore.file.value = file
-    console.log(audioChatStore.file.value)
+    console.log(file[0])
+    audioChatStore.file.value = file[0]
   }
 })
 </script>

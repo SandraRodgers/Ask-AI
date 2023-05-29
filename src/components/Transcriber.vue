@@ -1,5 +1,6 @@
 <script setup>
 import { useAudioChatStore } from '../stores/audioChat'
+import Loading from './Loading.vue'
 const audioChatStore = useAudioChatStore()
 </script>
 
@@ -9,5 +10,6 @@ const audioChatStore = useAudioChatStore()
     <button @click="audioChatStore.transcribeFile()" class="button button-primary">
       Transcribe
     </button>
+    <loading :loadingState="audioChatStore.isTranscribing" loadingMessage="Transcribing..." />
   </div>
 </template>
