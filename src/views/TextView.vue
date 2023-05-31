@@ -2,7 +2,9 @@
 import ChatWindow from '../components/ChatWindow.vue'
 import TextBox from '../components/TextBox.vue'
 import { useTextChatStore } from '../stores/textChat'
+import { useTokenizeStore } from '../stores/tokenize'
 const textChatStore = useTextChatStore()
+const tokenizeStore = useTokenizeStore()
 </script>
 
 <template>
@@ -20,6 +22,9 @@ const textChatStore = useTextChatStore()
         class="block w-full rounded-md border-0 bg-green-50 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:p-4 sm:text-sm sm:leading-6 text-sm my-4"
       >
         {{ textChatStore.gptResponse }}
+      </div>
+      <div v-if="tokenizeStore.tokenLength" class="text-xs mt-1">
+        Token length: {{ tokenizeStore.tokenLength }}
       </div>
     </div>
   </article>

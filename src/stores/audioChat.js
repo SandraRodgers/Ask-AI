@@ -1,7 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useTokenizeStore } from './tokenize'
 
 export const useAudioChatStore = defineStore('audioChat', () => {
+  const tokenizeStore = useTokenizeStore()
   const file = ref({})
   const text = ref('')
   const questions = ref('')
@@ -10,8 +12,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const transcript = ref('')
   const numQuestions = ref(1)
   const questionIncrement = ref({})
-  const tokenLength = ref(0)
-  const tokenLoading = ref(false)
   const isTranscribing = ref(false)
   const isLoadingGPT = ref(false)
 
@@ -20,7 +20,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
       alert('Please attach a file')
     } else {
       const formData = new FormData()
-      console.log('file', file.value.value)
       formData.append('file', file.value.value)
       isTranscribing.value = true
       fetch('https://deepgram-prerecorded.sandrar.repl.co/dg-transcription', {
@@ -31,7 +30,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
         .then((data) => {
           transcript.value = data.apiCall.results.channels[0].alternatives[0].transcript
           file.value = {}
-          checkTokens()
+
           isTranscribing.value = false
         })
     }
@@ -58,6 +57,9 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     prompt.value.push(instructions)
     prompt.value.push(transcriptToAnalyze)
     prompt.value.push(chatQuestion)
+    tokenizeStore.checkTokens(
+      instructions.content + transcriptToAnalyze.content + chatQuestion.content
+    )
 
     if (transcript.value) {
       sendPrompt()
@@ -90,27 +92,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     }
   }
 
-  function checkTokens() {
-    tokenLoading.value = true
-    fetch('https://OpenAI-Deepgram-Server.sandrar.repl.co/tokenize', {
-      method: 'POST',
-      body: JSON.stringify({
-        string: transcript.value
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        tokenLoading.value = false
-        tokenLength.value = data.tokens
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   return {
     text,
     questions,
@@ -123,8 +104,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     transcript,
     numQuestions,
     questionIncrement,
-    tokenLength,
-    tokenLoading,
     isTranscribing,
     isLoadingGPT
   }

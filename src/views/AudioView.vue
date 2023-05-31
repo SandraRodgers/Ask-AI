@@ -3,7 +3,9 @@ import Transcriber from '../components/Transcriber.vue'
 import Uploader from '../components/Uploader.vue'
 import ChatWindowAudio from '../components/ChatWindowAudio.vue'
 import { useAudioChatStore } from '../stores/audioChat'
+import { useTokenizeStore } from '../stores/tokenize'
 const audioChatStore = useAudioChatStore()
+const tokenizeStore = useTokenizeStore()
 </script>
 
 <template>
@@ -19,8 +21,8 @@ const audioChatStore = useAudioChatStore()
       >
         {{ audioChatStore.transcript }}
       </div>
-      <div v-if="audioChatStore.tokenLength" class="text-xs mt-1">
-        Token length: {{ audioChatStore.tokenLength }}
+      <div v-if="tokenizeStore.tokenLength" class="text-xs mt-1">
+        Token length: {{ tokenizeStore.tokenLength }}
       </div>
     </div>
     <div>

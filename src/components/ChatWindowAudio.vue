@@ -12,9 +12,9 @@ function sendQuestion() {
 <template>
   <div>
     <div class="flex rounded-md mt-4">
-      <div class="relative flex flex-col flex-grow items-stretch focus-within:z-10">
+      <div class="relative flex flex-col flex-grow items-stretch">
         <div v-for="(num, index) in audioChatStore.numQuestions" :key="num">
-          <div class="flex shadow-sm mt-10">
+          <div class="flex shadow-sm mb-4">
             <input
               v-model="audioChatStore.questionIncrement[`question${index}`]"
               class="input-button"

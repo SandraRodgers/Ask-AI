@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { useAudioChatStore } from '../stores/audioChat'
 const audioChatStore = useAudioChatStore()
@@ -8,7 +7,6 @@ const { files, open, reset, onChange } = useFileDialog({ accept: props.fileType 
 
 onChange((file) => {
   if (file[0].type === 'audio/wav') {
-    console.log(file[0])
     audioChatStore.file.value = file[0]
   }
 })
