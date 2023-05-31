@@ -6,7 +6,7 @@ const props = defineProps(['loadingState', 'loadingMessage'])
   <div v-if="loadingState" class="flex items-center mt-10">
     <span class="mr-0 sm:mr-4 text-xs animate-pulse">{{ loadingMessage }}...</span>
     <svg
-      class="animate-spin -ml-1 mr-3 h-4 w-5 text-vueBlue"
+      class="animate-spin -ml-1 mr-3 h-4 w-5 text-[#7686FF]"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -27,5 +27,3 @@ const props = defineProps(['loadingState', 'loadingMessage'])
     </svg>
   </div>
 </template>
-
-<style scoped></style>

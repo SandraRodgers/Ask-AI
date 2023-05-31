@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <nav>
     <router-link to="/" class="flex">
-      <h1 class="text-blue-700 mr-2">Ask AI</h1>
+      <h1 class="mr-2">Ask AI</h1>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -21,7 +21,7 @@ import { RouterLink, RouterView } from 'vue-router'
         />
       </svg>
     </router-link>
-    <ul class="flex text-blue-700 xl:text-2xl">
+    <ul class="flex xl:text-2xl">
       <router-link to="/text" class="px-2">text</router-link>
       <router-link to="/audio" class="px-2">audio</router-link>
       <router-link to="/image" class="px-2">image</router-link>

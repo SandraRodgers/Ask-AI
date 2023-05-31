@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import TextView from '../views/TextView.vue'
 import AudioView from '../views/AudioView.vue'
 import ImageView from '../views/ImageView.vue'
+import { useTokenizeStore } from '../stores/tokenize'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,11 @@ const router = createRouter({
       component: ImageView
     }
   ]
+})
+
+router.beforeEach(() => {
+  const tokenizeStore = useTokenizeStore()
+  tokenizeStore.tokenLength = 0
 })
 
 export default router

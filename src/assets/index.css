@@ -3,12 +3,24 @@
 @tailwind utilities;
 
 #app {
+  background-color: #101014;
+  color: #e9e5df;
   font-weight: normal;
   @apply h-screen;
 }
 
 nav {
-  @apply border-b border-vueBlue text-vueBlue bg-blue-100 font-bold;
+  background-image: linear-gradient(
+    to right,
+    #2a013d,
+    #101014 3%,
+    #101014,
+    #101014,
+    #101014,
+    #2a013d 110%
+  );
+  color: #e9e5df;
+  @apply border-b border-purple-400 font-bold;
   @apply w-screen;
   @apply py-4 px-10;
   @apply flex justify-between;
@@ -31,39 +43,49 @@ button[type='submit'] {
 
 .button-primary,
 button[type='submit'] {
-  @apply text-vueGreen font-semibold;
-  @apply border-vueGreen border;
+  @apply text-[#e9e5df] font-semibold;
+  @apply border-[#42b983] border;
 }
 
 .button-primary:hover {
-  @apply bg-vueGreen text-white;
+  @apply bg-[#42b983] text-white;
 }
 
 .button-secondary {
-  @apply border-vueBlue border text-vueBlue font-bold;
+  @apply border-[#7686FF] border text-[#e9e5df] font-bold;
 }
 
 .button-secondary:hover {
-  @apply bg-vueBlue text-white;
+  @apply bg-[#658efd] text-[#eef1fb];
 }
 
 .button-large {
   @apply py-8 px-6;
   @apply text-2xl text-green-700;
-  @apply border-vueGreen bg-green-50 border-2;
-  /* @apply font-normal; */
+  @apply border-[#42b983] bg-green-50 border-2;
 }
 
 .button-large:hover {
   @apply py-8 px-6;
-  @apply text-2xl text-vueGreen;
-  @apply border-vueGreen bg-white border-2;
+  @apply text-2xl text-[#42b983];
+  @apply border-[#42b983] bg-white border-2;
+}
+
+.input-button {
+  @apply block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-100 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6;
 }
 
 input {
+  background-color: #1a1a21;
+  color: #e9e5df;
   @apply border-slate-500 border rounded-sm;
   @apply h-8;
   @apply p-2;
+}
+
+textarea {
+  color: #e9e5df;
+  background-color: #1a1a21;
 }
 
 h1 {

@@ -24,8 +24,9 @@ function sendQuestion() {
               v-if="num === imageChatStore.numQuestions"
               @click="sendQuestion()"
               type="button"
-              class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-green-50 text-green-500 ring-1 ring-inset ring-gray-300 hover:bg-vueGreenHover"
+              class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-[#1a1a21] text-green-500 ring-1 ring-inset ring-gray-300 hover:bg-[#32a16f]"
             >
+              <span class="text-green-100">submit</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -47,7 +48,7 @@ function sendQuestion() {
           <button
             @click="imageChatStore.numQuestions++"
             type="button"
-            class="rounded-md text-gray-900 ring-1 hover:ring-2 ring-inset ring-gray-300 hover:font-bold px-2 shadow-sm mt-10"
+            class="rounded-md text-green-100 ring-1 hover:ring-2 ring-inset ring-gray-300 hover:bg-[#32a16f] px-3 py-1 shadow-sm mt-10 text-2xl"
           >
             +
           </button>
@@ -57,9 +58,3 @@ function sendQuestion() {
     <loading :loadingState="imageChatStore.isDescribing" loadingMessage="Loading" />
   </div>
 </template>
-
-<style scoped>
-.input-button {
-  @apply block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6;
-}
-</style>

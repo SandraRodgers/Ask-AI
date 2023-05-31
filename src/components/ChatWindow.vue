@@ -15,11 +15,13 @@ function sendQuestion() {
       <div class="relative flex flex-grow items-stretch focus-within:z-10">
         <input v-model="textChatStore.question" class="input-button" placeholder="Send a message" />
       </div>
+
       <button
         @click="sendQuestion()"
         type="button"
-        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-green-50 text-green-500 ring-1 ring-inset ring-gray-300 hover:bg-vueGreenHover"
+        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-[#1a1a21] text-green-500 ring-1 ring-inset ring-gray-300 hover:bg-[#32a16f]"
       >
+        <span class="text-green-100">submit</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -39,9 +41,3 @@ function sendQuestion() {
     <loading :loadingState="textChatStore.isLoadingGPT" loadingMessage="Loading" />
   </div>
 </template>
-
-<style scoped>
-.input-button {
-  @apply block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6;
-}
-</style>

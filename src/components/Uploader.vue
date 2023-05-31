@@ -29,7 +29,11 @@ onChange((file) => {
     </div>
 
     <div class="mt-6" v-if="files">
-      <li class="list-none font-semibold my-2 text-pink-800" v-for="file of files" :key="file.name">
+      <li
+        class="list-none font-semibold my-2 text-purple-300"
+        v-for="file of files"
+        :key="file.name"
+      >
         {{ file.name }}
       </li>
     </div>
