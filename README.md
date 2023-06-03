@@ -1,35 +1,48 @@
 # AI-Powered-App
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a project that demonstrates how to use several AI technologies:
 
-## Recommended IDE Setup
+- OpenAI chat completion API
+- Deepgram speech-to-text API
+- Replicate API to run the miniGPT vision encoder model
+- gpt-3-encoder package to tokenize strings into tokens (which are used to set limits on the length of prompts sent to OpenAI)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Get it Working
 
-## Customize configuration
+To see this project working, you can clone the project and then do the following.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### Install dependencies
 
-## Project Setup
-
-```sh
+```
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Create .env file
 
-```sh
+Create a `.env` file at the root of the project and then go into the `.gitignore` file and add `.env` to the list. This will make sure that the `.env` file does not get pushed up to github if you choose to push the project up to github.
+
+## API Keys
+
+Add API keys to the `.env` file as you see in the `.env-example` file. Go to each of these websites to sign up for an API key:
+
+[OpenAI](https://platform.openai.com/signup)
+
+[Deepgram](https://dpgr.am/deepgram-signup)
+
+[Replicate](https://replicate.com/)
+
+### Run the development environment
+
+```
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Run the server
 
-```sh
-npm run build
+```
+node index.js
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Questions
 
-```sh
-npm run lint
-```
+If you have any questions, you can reach out to me on [twitter](https://twitter.com/sandra_rodgers_)
