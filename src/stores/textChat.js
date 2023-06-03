@@ -49,5 +49,14 @@ export const useTextChatStore = defineStore('textChat', () => {
     }
   }
 
-  return { text, question, prompt, createPrompt, sendPrompt, gptResponse, isLoadingGPT }
+  function clearChat() {
+    text.value = ''
+    question.value = ''
+    prompt.value = []
+    gptResponse.value = ''
+    isLoadingGPT.value = false
+    tokenizeStore.tokenLength = 0
+  }
+
+  return { text, question, prompt, createPrompt, sendPrompt, gptResponse, isLoadingGPT, clearChat }
 })

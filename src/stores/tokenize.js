@@ -8,7 +8,7 @@ export const useTokenizeStore = defineStore('tokenize', () => {
   function checkTokens(val) {
     tokenLength.value = 0
     tokenLoading.value = true
-    fetch('https://OpenAI-Deepgram-Server.sandrar.repl.co/tokenize', {
+    fetch('http://localhost:3000/tokenize', {
       method: 'POST',
       body: JSON.stringify({
         string: val

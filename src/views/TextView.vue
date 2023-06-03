@@ -28,4 +28,7 @@ const tokenizeStore = useTokenizeStore()
       </div>
     </div>
   </article>
+  <div class="flex justify-end">
+    <button @click="textChatStore.clearChat()" class="button button-secondary">Clear</button>
+  </div>
 </template>

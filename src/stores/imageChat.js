@@ -47,6 +47,19 @@ export const useImageChatStore = defineStore('imageChat', () => {
       })
   }
 
+  function clearChat() {
+    file.value = {}
+    questions.value = ''
+    prompt.value = []
+    gptResponse.value = ''
+    description.value = ''
+    numQuestions.value = 1
+    questionIncrement.value = {}
+    isDescribing.value = false
+    filepath.value = ''
+    imageURL.value = ''
+  }
+
   return {
     questions,
     prompt,
@@ -59,6 +72,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
     filepath,
     imageURL,
     numQuestions,
-    questionIncrement
+    questionIncrement,
+    clearChat
   }
 })

@@ -22,7 +22,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
       const formData = new FormData()
       formData.append('file', file.value.value)
       isTranscribing.value = true
-      fetch('https://deepgram-prerecorded.sandrar.repl.co/dg-transcription', {
+      fetch('http://localhost:3000/dg-transcription', {
         method: 'POST',
         body: formData
       })
@@ -75,7 +75,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     } else {
       isLoadingGPT.value = true
 
-      fetch('https://OpenAI-Deepgram-Server.sandrar.repl.co/chat', {
+      fetch('http://localhost:3000/chat', {
         method: 'POST',
         body: JSON.stringify({
           messages: prompt.value
@@ -92,6 +92,20 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     }
   }
 
+  function clearChat() {
+    file.value = {}
+    text.value = ''
+    questions.value = ''
+    prompt.value = []
+    gptResponse.value = ''
+    transcript.value = ''
+    numQuestions.value = 1
+    questionIncrement.value = {}
+    isTranscribing.value = false
+    isLoadingGPT.value = false
+    tokenizeStore.tokenLength = 0
+  }
+
   return {
     text,
     questions,
@@ -105,6 +119,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     numQuestions,
     questionIncrement,
     isTranscribing,
-    isLoadingGPT
+    isLoadingGPT,
+    clearChat
   }
 })

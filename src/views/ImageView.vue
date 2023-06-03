@@ -25,4 +25,7 @@ const imageChatStore = useImageChatStore()
       </div>
     </div>
   </article>
+  <div class="flex justify-end">
+    <button @click="imageChatStore.clearChat()" class="button button-secondary">Clear</button>
+  </div>
 </template>

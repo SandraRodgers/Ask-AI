@@ -32,6 +32,10 @@ main {
   @apply pt-10;
 }
 
+article {
+  height: 564px;
+}
+
 .button,
 button[type='submit'] {
   @apply flex items-center justify-center text-center;
@@ -61,14 +65,14 @@ button[type='submit'] {
 
 .button-large {
   @apply py-8 px-6;
-  @apply text-2xl text-green-700;
-  @apply border-[#42b983] bg-green-50 border-2;
+  @apply text-2xl text-[#e9e5df];
+  @apply border-[#42b983] border;
 }
 
 .button-large:hover {
   @apply py-8 px-6;
-  @apply text-2xl text-[#42b983];
-  @apply border-[#42b983] bg-white border-2;
+  @apply text-2xl text-white;
+  @apply bg-[#42b983];
 }
 
 .input-button {
