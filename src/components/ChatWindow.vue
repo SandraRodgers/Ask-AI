@@ -19,16 +19,16 @@ function sendQuestion() {
       <button
         @click="sendQuestion()"
         type="button"
-        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-[#1a1a21] text-green-500 ring-1 ring-inset ring-gray-300 hover:bg-[#32a16f]"
+        class="chat-button group relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-[#1a1a21] text-green-500 ring-1 ring-inset ring-gray-300"
       >
-        <span class="text-green-100">submit</span>
+        <span class="text-green-100 group-hover:bg-[#42b983]">submit</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-6 h-6 text-green-400"
+          class="w-6 h-6 text-green-400 hover:fill-[#42b983] group-hover:bg-[#42b983]"
         >
           <path
             stroke-linecap="round"

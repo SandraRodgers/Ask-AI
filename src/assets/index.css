@@ -2,11 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  background-color: #101014;
+}
+
+body {
+  background-color: #101014;
+}
+
 #app {
   background-color: #101014;
   color: #e9e5df;
   font-weight: normal;
-  @apply h-screen;
 }
 
 nav {
@@ -28,12 +35,12 @@ nav {
 
 main {
   margin: 0 auto;
-  max-width: 1280px;
+  @apply max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-7xl;
   @apply pt-10;
 }
 
 article {
-  height: 564px;
+  @apply h-[650px] lg:h-[564px];
 }
 
 .button,
@@ -51,8 +58,17 @@ button[type='submit'] {
   @apply border-[#42b983] border;
 }
 
+.chat-button:hover {
+  @apply bg-[#42b983];
+}
+
+.chat-button span:hover {
+  @apply bg-[#42b983];
+}
+
 .button-primary:hover {
-  @apply bg-[#42b983] text-white;
+  @apply text-white;
+  @apply bg-[#42b983];
 }
 
 .button-secondary {
