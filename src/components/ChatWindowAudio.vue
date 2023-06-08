@@ -48,9 +48,9 @@ function sendQuestion() {
           <button
             @click="audioChatStore.numQuestions++"
             type="button"
-            class="rounded-md text-green-100 ring-1 hover:ring-2 ring-inset ring-gray-300 px-3 py-1 shadow-sm mt-10 text-2xl"
+            class="flex items-center rounded-md text-green-100 ring-1 hover:ring-2 ring-inset ring-gray-300 px-3 py-1 shadow-sm mt-10 text-2xl"
           >
-            +
+            + <span class="text-sm font-semibold ml-2">add question</span>
           </button>
         </div>
       </div>

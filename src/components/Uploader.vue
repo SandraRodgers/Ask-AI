@@ -1,15 +1,28 @@
 <script setup>
+import { watch } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { useAudioChatStore } from '../stores/audioChat'
+import { storeToRefs } from 'pinia'
 const audioChatStore = useAudioChatStore()
 const props = defineProps(['fileType'])
-const { files, open, reset, onChange } = useFileDialog({ accept: props.fileType })
+const { files, open, reset, onChange } = useFileDialog({ accept: props.fileType, reset: true })
+const { clearFile } = storeToRefs(audioChatStore)
+
+watch(clearFile, () => {
+  resetFile()
+})
 
 onChange((file) => {
-  if (file[0].type === 'audio/wav') {
+  if (file[0].type.startsWith('audio')) {
     audioChatStore.file.value = file[0]
+    audioChatStore.clearFile = false
   }
 })
+
+function resetFile() {
+  reset()
+  audioChatStore.clearFile = false
+}
 </script>
 
 <template>
@@ -21,7 +34,7 @@ onChange((file) => {
       <button
         type="button"
         :disabled="!files"
-        @click="reset()"
+        @click="resetFile()"
         class="button button-secondary w-36"
       >
         Reset

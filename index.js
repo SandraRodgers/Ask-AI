@@ -57,6 +57,7 @@ app.post('/chat', async (req, res) => {
 // Deepgram transcription
 app.post('/dg-transcription', upload.single('file'), async (req, res) => {
   try {
+    console.log(req.file)
     const dgResponse = await deepgram.transcription.preRecorded(
       {
         buffer: req.file.buffer,

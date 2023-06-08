@@ -14,12 +14,14 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const questionIncrement = ref({})
   const isTranscribing = ref(false)
   const isLoadingGPT = ref(false)
+  const clearFile = ref(false)
 
   function transcribeFile() {
     if (file.value === 0) {
       alert('Please attach a file')
     } else {
       const formData = new FormData()
+      console.log(file)
       formData.append('file', file.value.value)
       isTranscribing.value = true
       fetch('http://localhost:3000/dg-transcription', {
@@ -104,6 +106,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     isTranscribing.value = false
     isLoadingGPT.value = false
     tokenizeStore.tokenLength = 0
+    clearFile.value = true
   }
 
   return {
@@ -120,6 +123,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     questionIncrement,
     isTranscribing,
     isLoadingGPT,
-    clearChat
+    clearChat,
+    clearFile
   }
 })
