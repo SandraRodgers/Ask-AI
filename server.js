@@ -33,8 +33,8 @@ const { encode } = require('gpt-3-encoder')
 
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
+  console.log('hit', req.body.messages)
   const messages = req.body.messages
-  console.log(messages)
   try {
     if (messages == null) {
       throw new Error('We have a problem - no prompt was provided')

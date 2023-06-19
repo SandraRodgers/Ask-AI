@@ -7,7 +7,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "init-server": "node server.js",
+    "start": "npm-run-all --parallel dev init-server"
   },
   "dependencies": {
     "@deepgram/sdk": "^2.1.1",
@@ -19,6 +21,7 @@
     "express": "^4.18.2",
     "gpt-3-encoder": "^1.1.4",
     "multer": "^1.4.5-lts.1",
+    "npm-run-all": "^4.1.5",
     "openai": "^3.2.1",
     "pinia": "^2.0.36",
     "postcss": "^8.4.23",

@@ -32,7 +32,7 @@ export const useTextChatStore = defineStore('textChat', () => {
     } else {
       isLoadingGPT.value = true
 
-      fetch('https://OpenAI-Deepgram-Server.sandrar.repl.co/chat', {
+      fetch('http://localhost:3000/chat', {
         method: 'POST',
         body: JSON.stringify({
           messages: prompt.value
