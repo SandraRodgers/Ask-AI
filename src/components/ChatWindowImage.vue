@@ -17,7 +17,7 @@ function sendQuestion() {
           <div class="flex shadow-sm mb-4">
             <input
               v-model="imageChatStore.questionIncrement[`question${index}`]"
-              class="input-button"
+              class="question-input"
               placeholder="Ask AI about the text"
             />
             <button

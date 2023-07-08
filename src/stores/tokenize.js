@@ -3,11 +3,9 @@ import { defineStore } from 'pinia'
 
 export const useTokenizeStore = defineStore('tokenize', () => {
   const tokenLength = ref(0)
-  const tokenLoading = ref(false)
 
   function checkTokens(val) {
     tokenLength.value = 0
-    tokenLoading.value = true
     fetch('http://localhost:3000/tokenize', {
       method: 'POST',
       body: JSON.stringify({
@@ -19,7 +17,6 @@ export const useTokenizeStore = defineStore('tokenize', () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        tokenLoading.value = false
         tokenLength.value = data.tokens
       })
       .catch((error) => {

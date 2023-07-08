@@ -21,6 +21,7 @@ onChange((file) => {
 
 function resetFile() {
   reset()
+  audioChatStore.clearChat()
   audioChatStore.clearFile = false
 }
 </script>

@@ -33,7 +33,6 @@ const { encode } = require('gpt-3-encoder')
 
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
-  console.log('hit', req.body.messages)
   const messages = req.body.messages
   try {
     if (messages == null) {
@@ -45,6 +44,7 @@ app.post('/chat', async (req, res) => {
       messages
     })
     const completion = response.data.choices[0].message
+    console.dir(response.data)
     return res.status(200).json({
       success: true,
       message: completion

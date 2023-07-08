@@ -91,7 +91,7 @@ button[type='submit'] {
   @apply bg-[#42b983];
 }
 
-.input-button {
+.question-input {
   @apply block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-100 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6;
 }
 

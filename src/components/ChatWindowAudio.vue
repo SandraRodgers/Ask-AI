@@ -17,7 +17,7 @@ function sendQuestion() {
           <div class="flex shadow-sm mb-4">
             <input
               v-model="audioChatStore.questionIncrement[`question${index}`]"
-              class="input-button"
+              class="question-input"
               placeholder="Send a message"
             />
             <button
