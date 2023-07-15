@@ -8,7 +8,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const gptResponse = ref('')
   const description = ref('')
   const numQuestions = ref(1)
-  const questionIncrement = ref({})
+  const multipleQuestions = ref({})
   const isDescribing = ref(false)
   const filepath = ref('')
   const imageURL = ref('')
@@ -23,9 +23,9 @@ export const useImageChatStore = defineStore('imageChat', () => {
   function createPrompt() {
     // concatenate list of questions into one string:
     let num = 0
-    for (const property in questionIncrement.value) {
+    for (const property in multipleQuestions.value) {
       num++
-      questions.value += ` Question ${num}: ${questionIncrement.value[property]}? `
+      questions.value += ` Question ${num}: ${multipleQuestions.value[property]}? `
     }
 
     isDescribing.value = true
@@ -54,7 +54,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
     gptResponse.value = ''
     description.value = ''
     numQuestions.value = 1
-    questionIncrement.value = {}
+    multipleQuestions.value = {}
     isDescribing.value = false
     filepath.value = ''
     imageURL.value = ''
@@ -72,7 +72,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
     filepath,
     imageURL,
     numQuestions,
-    questionIncrement,
+    multipleQuestions,
     clearChat
   }
 })

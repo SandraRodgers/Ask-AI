@@ -16,7 +16,7 @@ function sendQuestion() {
         <div v-for="(num, index) in imageChatStore.numQuestions" :key="num">
           <div class="flex shadow-sm mb-4">
             <input
-              v-model="imageChatStore.questionIncrement[`question${index}`]"
+              v-model="imageChatStore.multipleQuestions[`question${index}`]"
               class="question-input"
               placeholder="Ask AI about the text"
             />

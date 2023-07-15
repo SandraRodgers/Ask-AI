@@ -34,6 +34,7 @@ const { encode } = require('gpt-3-encoder')
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
   const messages = req.body.messages
+  console.log(messages)
   try {
     if (messages == null) {
       throw new Error('We have a problem - no prompt was provided')
@@ -44,7 +45,7 @@ app.post('/chat', async (req, res) => {
       messages
     })
     const completion = response.data.choices[0].message
-    console.dir(response.data)
+    console.dir(response.data.choices[0])
     return res.status(200).json({
       success: true,
       message: completion
@@ -69,7 +70,7 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
       }
     )
     console.dir(dgResponse.results, { depth: 4 })
-    res.send({ apiCall: dgResponse })
+    res.send({ transcript: dgResponse })
   } catch (e) {
     console.log('error', e)
   }
@@ -95,7 +96,7 @@ app.post('/minigpt', async (req, res) => {
 
 // Token Counter
 app.post('/tokenize', async (req, res) => {
-  const str = req.body.string
+  const str = req.body.stringToTokenize
   try {
     if (str == null) {
       throw new Error('No string was provided')

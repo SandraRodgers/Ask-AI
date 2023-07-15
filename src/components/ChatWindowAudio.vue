@@ -1,8 +1,10 @@
 <script setup>
+import { ref } from 'vue'
 import { useAudioChatStore } from '../stores/audioChat'
 import Loading from './Loading.vue'
 
 const audioChatStore = useAudioChatStore()
+const numQuestions = ref(1)
 
 function sendQuestion() {
   audioChatStore.createPrompt()
@@ -13,15 +15,15 @@ function sendQuestion() {
   <div>
     <div class="flex rounded-md mt-4">
       <div class="relative flex flex-col flex-grow items-stretch">
-        <div v-for="(num, index) in audioChatStore.numQuestions" :key="num">
+        <div v-for="(num, index) in numQuestions" :key="num">
           <div class="flex shadow-sm mb-4">
             <input
-              v-model="audioChatStore.questionIncrement[`question${index}`]"
+              v-model="audioChatStore.multipleQuestions[`question${index}`]"
               class="question-input"
               placeholder="Send a message"
             />
             <button
-              v-if="num === audioChatStore.numQuestions"
+              v-if="num === numQuestions"
               @click="sendQuestion()"
               type="button"
               class="chat-button group relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-[#1a1a21] text-green-500 ring-1 ring-inset ring-gray-300"
@@ -46,7 +48,7 @@ function sendQuestion() {
         </div>
         <div class="flex justify-center">
           <button
-            @click="audioChatStore.numQuestions++"
+            @click="numQuestions++"
             type="button"
             class="flex items-center rounded-md text-green-100 ring-1 hover:ring-2 ring-inset ring-gray-300 px-3 py-1 shadow-sm mt-10 text-2xl"
           >

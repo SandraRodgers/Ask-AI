@@ -9,7 +9,7 @@ export const useTokenizeStore = defineStore('tokenize', () => {
     fetch('http://localhost:3000/tokenize', {
       method: 'POST',
       body: JSON.stringify({
-        string: val
+        stringToTokenize: val
       }),
       headers: {
         'Content-Type': 'application/json'
