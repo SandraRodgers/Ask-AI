@@ -18,19 +18,6 @@ const configuration = new Configuration({
 })
 const openai = new OpenAIApi(configuration)
 
-////// Deepgram config //////
-const { Deepgram } = require('@deepgram/sdk')
-const deepgram = new Deepgram(process.env.DG_API)
-
-////// Replicate config //////
-const Replicate = require('replicate')
-const replicate = new Replicate({
-  auth: process.env.REPLICATE
-})
-
-////// Token Counter //////
-const { encode } = require('gpt-3-encoder')
-
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
   const messages = req.body.messages
@@ -55,6 +42,10 @@ app.post('/chat', async (req, res) => {
   }
 })
 
+////// Deepgram config //////
+const { Deepgram } = require('@deepgram/sdk')
+const deepgram = new Deepgram(process.env.DG_API)
+
 // Deepgram transcription
 app.post('/dg-transcription', upload.single('file'), async (req, res) => {
   try {
@@ -76,23 +67,32 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
   }
 })
 
+////// Replicate config //////
+const Replicate = require('replicate')
+const replicate = new Replicate({
+  auth: process.env.REPLICATE
+})
+
+const miniGPT =
+  'daanelson/minigpt-4:b96a2f33cc8e4b0aa23eacfce731b9c41a7d9466d9ed4e167375587b54db9423'
+
 // Replicate (minigpt) image analyzer
 app.post('/minigpt', async (req, res) => {
   try {
-    const miniGPTResponse = await replicate.run(
-      'daanelson/minigpt-4:b96a2f33cc8e4b0aa23eacfce731b9c41a7d9466d9ed4e167375587b54db9423',
-      {
-        input: {
-          image: req.body.image,
-          prompt: req.body.prompt
-        }
+    const miniGPTResponse = await replicate.run(miniGPT, {
+      input: {
+        image: req.body.image,
+        prompt: req.body.prompt
       }
-    )
+    })
     res.send({ message: miniGPTResponse })
   } catch (e) {
     console.log('error', e)
   }
 })
+
+////// Token Counter //////
+const { encode } = require('gpt-3-encoder')
 
 // Token Counter
 app.post('/tokenize', async (req, res) => {
