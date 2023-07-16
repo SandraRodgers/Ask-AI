@@ -5,22 +5,20 @@ import { useTokenizeStore } from './tokenize'
 export const useAudioChatStore = defineStore('audioChat', () => {
   const tokenizeStore = useTokenizeStore()
   const file = ref({})
-  const text = ref('')
-  const questions = ref('')
   const prompt = ref([])
-  const gptResponse = ref('')
+  const gptResponse = ref([])
   const transcript = ref('')
-  const multipleQuestions = ref({})
+  const question = ref('')
   const isTranscribing = ref(false)
   const isLoadingGPT = ref(false)
   const clearFile = ref(false)
+  const questionAnswerList = ref([])
 
   function transcribeFile() {
     if (file.value === 0) {
       alert('Please attach a file')
     } else {
       const formData = new FormData()
-      console.log(file)
       formData.append('file', file.value.value)
       isTranscribing.value = true
       fetch('http://localhost:3000/dg-transcription', {
@@ -38,24 +36,22 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   }
 
   function createPrompt() {
+    prompt.value = []
     const instructions = {
       role: 'system',
       content:
         'You will answer questions about the following text that has been transcribed from an audio file.'
     }
     const transcriptToAnalyze = { role: 'user', content: transcript.value }
-
+    const chatQuestion = { role: 'user', content: question.value }
     ///create prompt array
     prompt.value.push(instructions)
     prompt.value.push(transcriptToAnalyze)
+    prompt.value.push(chatQuestion)
 
-    let tokenCount = ''
-    const questions = Object.values(multipleQuestions.value)
-    questions.forEach((question, i) => {
-      prompt.value.push({ role: 'user', content: `Question ${i + 1} ${question}` })
-      tokenCount += question
-    })
-    tokenizeStore.checkTokens(instructions.content + transcriptToAnalyze.content + tokenCount)
+    tokenizeStore.checkTokens(
+      instructions.content + transcriptToAnalyze.content + chatQuestion.content
+    )
 
     // if (transcript.value) {
     sendPrompt()
@@ -66,9 +62,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   }
 
   function sendPrompt() {
-    // if (transcript.value.length === 0) {
-    //   alert('You have not added any transcript to analyze.')
-    // } else {
     isLoadingGPT.value = true
 
     fetch('http://localhost:3000/chat', {
@@ -83,28 +76,29 @@ export const useAudioChatStore = defineStore('audioChat', () => {
       .then((response) => response.json())
       .then((data) => {
         isLoadingGPT.value = false
-        gptResponse.value = data.message.content
+        gptResponse.value.push(data.message.content)
+        questionAnswerList.value.push({
+          question: question.value,
+          answer: data.message.content
+        })
+        question.value = ''
       })
-    // }
   }
 
   function clearChat() {
     file.value = {}
-    text.value = ''
-    questions.value = ''
     prompt.value = []
     gptResponse.value = ''
     transcript.value = ''
-    multipleQuestions.value = {}
+    question.value = ''
     isTranscribing.value = false
     isLoadingGPT.value = false
     tokenizeStore.tokenLength = 0
     clearFile.value = true
+    questionAnswerList.value = []
   }
 
   return {
-    text,
-    questions,
     prompt,
     createPrompt,
     sendPrompt,
@@ -112,10 +106,11 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     file,
     transcribeFile,
     transcript,
-    multipleQuestions,
+    question,
     isTranscribing,
     isLoadingGPT,
     clearChat,
-    clearFile
+    clearFile,
+    questionAnswerList
   }
 })
