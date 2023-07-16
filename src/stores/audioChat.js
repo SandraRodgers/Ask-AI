@@ -64,7 +64,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   function sendPrompt() {
     isLoadingGPT.value = true
 
-    fetch('http://localhost:3000/chat', {
+    fetch('http://localhost:3000/chain', {
       method: 'POST',
       body: JSON.stringify({
         messages: prompt.value
@@ -76,10 +76,10 @@ export const useAudioChatStore = defineStore('audioChat', () => {
       .then((response) => response.json())
       .then((data) => {
         isLoadingGPT.value = false
-        gptResponse.value.push(data.message.content)
+        gptResponse.value.push(data.message)
         questionAnswerList.value.push({
           question: question.value,
-          answer: data.message.content
+          answer: data.message
         })
         question.value = ''
       })

@@ -18,19 +18,6 @@ const configuration = new Configuration({
 })
 const openai = new OpenAIApi(configuration)
 
-////// Deepgram config //////
-const { Deepgram } = require('@deepgram/sdk')
-const deepgram = new Deepgram(process.env.DG_API)
-
-////// Replicate config //////
-const Replicate = require('replicate')
-const replicate = new Replicate({
-  auth: process.env.REPLICATE
-})
-
-////// Token Counter //////
-const { encode } = require('gpt-3-encoder')
-
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
   const messages = req.body.messages
@@ -55,6 +42,10 @@ app.post('/chat', async (req, res) => {
   }
 })
 
+////// Deepgram config //////
+const { Deepgram } = require('@deepgram/sdk')
+const deepgram = new Deepgram(process.env.DG_API)
+
 // Deepgram transcription
 app.post('/dg-transcription', upload.single('file'), async (req, res) => {
   try {
@@ -76,6 +67,12 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
   }
 })
 
+////// Replicate config //////
+const ReplicateAPI = require('replicate')
+const replicate = new ReplicateAPI({
+  auth: process.env.REPLICATE
+})
+
 // Replicate (minigpt) image analyzer
 app.post('/minigpt', async (req, res) => {
   try {
@@ -94,6 +91,9 @@ app.post('/minigpt', async (req, res) => {
   }
 })
 
+////// Token Counter //////
+const { encode } = require('gpt-3-encoder')
+
 // Token Counter
 app.post('/tokenize', async (req, res) => {
   const str = req.body.stringToTokenize
@@ -110,6 +110,83 @@ app.post('/tokenize', async (req, res) => {
     })
   } catch (error) {
     console.log(error.message)
+  }
+})
+
+////// LangChain Config //////
+const { OpenAI } = require('langchain/llms/openai')
+const { BufferMemory } = require('langchain/memory')
+const { ConversationChain } = require('langchain/chains')
+
+const model = new OpenAI({})
+const memory = new BufferMemory()
+const chain = new ConversationChain({ llm: model, memory: memory })
+let chainNum = 0
+
+app.post('/chain', async (req, res) => {
+  chainNum++
+  const messages = req.body.messages
+  console.log(chainNum)
+  if (chainNum === 1) {
+    const firstResponse = await chain.call({ input: messages[0].content })
+    console.log(firstResponse)
+    const secondResponse = await chain.call({ input: messages[1].content })
+    console.log(secondResponse)
+    const thirdResponse = await chain.call({ input: messages[2].content })
+    console.log(thirdResponse)
+    return res.status(200).json({
+      success: true,
+      message: thirdResponse.response
+    })
+  } else {
+    const nextResponse = await chain.call({ input: messages[2].content })
+    console.log(nextResponse)
+    return res.status(200).json({
+      success: true,
+      message: nextResponse.response
+    })
+  }
+})
+
+app.post('/clear-chain', async (req, res) => {
+  chainNum = 0
+})
+
+const { Replicate } = require('langchain/llms/replicate')
+
+const replicateModel = new Replicate({
+  model: 'daanelson/minigpt-4:b96a2f33cc8e4b0aa23eacfce731b9c41a7d9466d9ed4e167375587b54db9423',
+  apiKey: process.env.REPLICATE
+})
+
+const replicateMemory = new BufferMemory()
+const replicateChain = new ConversationChain({ llm: replicateModel, memory: replicateMemory })
+let replicateChainNum = 0
+
+app.post('/replicate-chain', async (req, res) => {
+  console.log(req.body)
+  replicateChainNum++
+  console.log(replicateChainNum)
+  if (replicateChainNum === 1) {
+    // send image only on first request
+    replicateModel.input.image = req.body.image
+    const firstResponse = await replicateChain.call({ input: req.body.prompt })
+    console.log(firstResponse)
+    return res.status(200).json({
+      success: true,
+      message: firstResponse.response
+    })
+  } else {
+    console.log('else statement')
+
+    const nextResponse = await replicateChain.call({
+      input: req.body.prompt
+    })
+    console.log(nextResponse)
+    return res.status(200).json({
+      success: true,
+      message: nextResponse.response
+    })
   }
 })
 

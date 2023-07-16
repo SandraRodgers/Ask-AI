@@ -1,9 +1,12 @@
 <script setup>
+import { ref } from 'vue'
 import { useImageChatStore } from '../stores/imageChat'
 import Loading from './Loading.vue'
+import { useTokenizeStore } from '../stores/tokenize'
 
 const imageChatStore = useImageChatStore()
-
+const tokenizeStore = useTokenizeStore()
+const numQuestions = ref(1)
 function sendQuestion() {
   imageChatStore.createPrompt()
 }
@@ -13,15 +16,15 @@ function sendQuestion() {
   <div>
     <div class="flex rounded-md mt-4">
       <div class="relative flex flex-col flex-grow items-stretch">
-        <div v-for="(num, index) in imageChatStore.numQuestions" :key="num">
+        <div v-for="num in numQuestions" :key="num">
           <div class="flex shadow-sm mb-4">
             <input
-              v-model="imageChatStore.multipleQuestions[`question${index}`]"
+              v-model="imageChatStore.question"
               class="question-input"
-              placeholder="Ask AI about the text"
+              placeholder="Ask AI about the image"
             />
             <button
-              v-if="num === imageChatStore.numQuestions"
+              v-if="num === numQuestions"
               @click="sendQuestion()"
               type="button"
               class="chat-button group relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-[#1a1a21] text-green-500 ring-1 ring-inset ring-gray-300"
@@ -44,14 +47,16 @@ function sendQuestion() {
             </button>
           </div>
         </div>
-        <div class="flex justify-center">
-          <button
-            @click="imageChatStore.numQuestions++"
-            type="button"
-            class="flex items-center rounded-md text-green-100 ring-1 hover:ring-2 ring-inset ring-gray-300 px-3 py-1 shadow-sm mt-10 text-2xl"
+        <div v-if="tokenizeStore.tokenLength" class="text-xs mt-1 mb-4">
+          Token length: {{ tokenizeStore.tokenLength }}
+        </div>
+        <div v-for="(chat, i) in imageChatStore.questionAnswerList" :key="chat.question">
+          <p class="font-bold">Question {{ i + 1 }}: {{ chat.question }}</p>
+          <p
+            class="block w-full rounded-md border-0 bg-green-900 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:p-4 sm:text-sm sm:leading-6 text-sm my-4"
           >
-            + <span class="text-sm font-semibold ml-2">add question</span>
-          </button>
+            {{ chat.answer }}
+          </p>
         </div>
       </div>
     </div>

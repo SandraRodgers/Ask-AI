@@ -16,7 +16,7 @@ const audioChatStore = useAudioChatStore()
 
       <transcriber />
     </div>
-    <div class="min-h-80 flex flex-col justify-between">
+    <div class="min-h-80 flex flex-col">
       <chat-window-audio page="audio" />
 
       <div class="flex justify-end">

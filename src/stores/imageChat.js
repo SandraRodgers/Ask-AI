@@ -2,16 +2,17 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useImageChatStore = defineStore('imageChat', () => {
-  const file = ref({})
+  // const file = ref({})
   const questions = ref('')
   const prompt = ref([])
   const gptResponse = ref('')
   const description = ref('')
   const numQuestions = ref(1)
-  const multipleQuestions = ref({})
+  const question = ref('')
   const isDescribing = ref(false)
-  const filepath = ref('')
+  // const filepath = ref('')
   const imageURL = ref('')
+  const questionAnswerList = ref([])
 
   function describeImage() {
     if (file.value === 0) {
@@ -22,18 +23,18 @@ export const useImageChatStore = defineStore('imageChat', () => {
   }
   function createPrompt() {
     // concatenate list of questions into one string:
-    let num = 0
-    for (const property in multipleQuestions.value) {
-      num++
-      questions.value += ` Question ${num}: ${multipleQuestions.value[property]}? `
-    }
+    // let num = 0
+    // for (const property in multipleQuestions.value) {
+    //   num++
+    //   questions.value += ` Question ${num}: ${multipleQuestions.value[property]}? `
+    // }
 
     isDescribing.value = true
-    fetch('http://localhost:3000/minigpt', {
+    fetch('http://localhost:3000/replicate-chain', {
       method: 'POST',
       body: JSON.stringify({
         image: imageURL.value,
-        prompt: questions.value
+        prompt: question.value
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -41,38 +42,45 @@ export const useImageChatStore = defineStore('imageChat', () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        description.value = data.apiCall
-        file.value = {}
+        console.log(data)
+        questionAnswerList.value.push({
+          question: question.value,
+          answer: data.message
+        })
+        // description.value = data.apiCall
+        // file.value = {}
         isDescribing.value = false
       })
   }
 
   function clearChat() {
-    file.value = {}
+    // file.value = {}
     questions.value = ''
     prompt.value = []
     gptResponse.value = ''
     description.value = ''
     numQuestions.value = 1
-    multipleQuestions.value = {}
+    question.value = ''
     isDescribing.value = false
-    filepath.value = ''
+    // filepath.value = ''
     imageURL.value = ''
+    questionAnswerList.value = []
   }
 
   return {
     questions,
     prompt,
-    file,
+    // file,
     describeImage,
     description,
     createPrompt,
     gptResponse,
     isDescribing,
-    filepath,
+    // filepath,
     imageURL,
     numQuestions,
-    multipleQuestions,
-    clearChat
+    question,
+    clearChat,
+    questionAnswerList
   }
 })
