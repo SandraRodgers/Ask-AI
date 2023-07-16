@@ -1,7 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useTokenizeStore } from './tokenize'
 
 export const useImageChatStore = defineStore('imageChat', () => {
+  const tokenizeStore = useTokenizeStore()
   const prompt = ref([])
   const miniGPTResponse = ref('')
   const question = ref('')
@@ -11,6 +13,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
 
   function createPrompt() {
     isThinking.value = true
+    tokenizeStore.checkTokens(imageURL.value + question.value)
     fetch('http://localhost:3000/minigpt', {
       method: 'POST',
       body: JSON.stringify({

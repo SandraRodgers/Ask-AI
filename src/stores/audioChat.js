@@ -6,7 +6,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const tokenizeStore = useTokenizeStore()
   const file = ref({})
   const prompt = ref([])
-  const gptResponse = ref([])
+  const gptResponse = ref('')
   const transcript = ref('')
   const question = ref('')
   const isTranscribing = ref(false)
@@ -76,7 +76,8 @@ export const useAudioChatStore = defineStore('audioChat', () => {
       .then((response) => response.json())
       .then((data) => {
         isLoadingGPT.value = false
-        gptResponse.value.push(data.message.content)
+        gptResponse.value = data.message.content
+        // array to save the conversation
         questionAnswerList.value.push({
           question: question.value,
           answer: data.message.content
