@@ -148,8 +148,12 @@ app.post('/chain', async (req, res) => {
   }
 })
 
-app.post('/clear-chain', async (req, res) => {
+app.get('/clear-chain', async (req, res) => {
   chainNum = 0
+  return res.status(200).json({
+    success: true,
+    message: 'Memory is clear!'
+  })
 })
 
 const { Replicate } = require('langchain/llms/replicate')

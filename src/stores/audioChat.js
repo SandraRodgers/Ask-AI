@@ -97,6 +97,8 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     tokenizeStore.tokenLength = 0
     clearFile.value = true
     questionAnswerList.value = []
+    // clear memory in server:
+    fetch('http://localhost:3000/clear-chain').then((response) => response.json())
   }
 
   return {
