@@ -13,11 +13,11 @@ const imageChatStore = useImageChatStore()
       </section>
       <img class="w-80 mt-10" :src="imageChatStore.imageURL" />
     </div>
-    <div>
+    <div class="min-h-80 flex flex-col justify-between">
       <chat-window-image />
+      <div class="flex justify-end">
+        <button @click="imageChatStore.clearChat()" class="button button-secondary">Clear</button>
+      </div>
     </div>
   </article>
-  <div class="flex justify-end">
-    <button @click="imageChatStore.clearChat()" class="button button-secondary">Clear</button>
-  </div>
 </template>

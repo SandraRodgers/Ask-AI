@@ -3,10 +3,8 @@ import { ref } from 'vue'
 import { useImageChatStore } from '../stores/imageChat'
 import Loading from './Loading.vue'
 import { useTokenizeStore } from '../stores/tokenize'
-
 const imageChatStore = useImageChatStore()
 const tokenizeStore = useTokenizeStore()
-const numQuestions = ref(1)
 function sendQuestion() {
   imageChatStore.createPrompt()
 }
@@ -16,15 +14,14 @@ function sendQuestion() {
   <div>
     <div class="flex rounded-md mt-4">
       <div class="relative flex flex-col flex-grow items-stretch">
-        <div v-for="num in numQuestions" :key="num">
+        <div>
           <div class="flex shadow-sm mb-4">
             <input
               v-model="imageChatStore.question"
               class="question-input"
-              placeholder="Ask AI about the image"
+              placeholder="Send a message"
             />
             <button
-              v-if="num === numQuestions"
               @click="sendQuestion()"
               type="button"
               class="chat-button group relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 text-sm font-semibold bg-[#1a1a21] text-green-500 ring-1 ring-inset ring-gray-300"
@@ -60,6 +57,6 @@ function sendQuestion() {
         </div>
       </div>
     </div>
-    <loading :loadingState="imageChatStore.isDescribing" loadingMessage="Loading" />
+    <loading :loadingState="imageChatStore.isThinking" loadingMessage="Loading" />
   </div>
 </template>

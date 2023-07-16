@@ -1,36 +1,20 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useTokenizeStore } from './tokenize'
 
 export const useImageChatStore = defineStore('imageChat', () => {
-  // const file = ref({})
-  const questions = ref('')
+  const tokenizeStore = useTokenizeStore()
   const prompt = ref([])
-  const gptResponse = ref('')
-  const description = ref('')
-  const numQuestions = ref(1)
+  const miniGPTResponse = ref('')
   const question = ref('')
-  const isDescribing = ref(false)
-  // const filepath = ref('')
+  const isThinking = ref(false)
   const imageURL = ref('')
   const questionAnswerList = ref([])
 
-  function describeImage() {
-    if (file.value === 0) {
-      alert('Please add an image')
-    } else {
-      createPrompt()
-    }
-  }
   function createPrompt() {
-    // concatenate list of questions into one string:
-    // let num = 0
-    // for (const property in multipleQuestions.value) {
-    //   num++
-    //   questions.value += ` Question ${num}: ${multipleQuestions.value[property]}? `
-    // }
-
-    isDescribing.value = true
-    fetch('http://localhost:3000/replicate-chain', {
+    isThinking.value = true
+    tokenizeStore.checkTokens(imageURL.value + question.value)
+    fetch('http://localhost:3000/minigpt', {
       method: 'POST',
       body: JSON.stringify({
         image: imageURL.value,
@@ -43,42 +27,31 @@ export const useImageChatStore = defineStore('imageChat', () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
+        miniGPTResponse.value = data.message
         questionAnswerList.value.push({
           question: question.value,
           answer: data.message
         })
-        // description.value = data.apiCall
-        // file.value = {}
-        isDescribing.value = false
+        isThinking.value = false
+        question.value = ''
       })
   }
 
   function clearChat() {
-    // file.value = {}
-    questions.value = ''
     prompt.value = []
-    gptResponse.value = ''
-    description.value = ''
-    numQuestions.value = 1
+    miniGPTResponse.value = ''
     question.value = ''
-    isDescribing.value = false
-    // filepath.value = ''
+    isThinking.value = false
     imageURL.value = ''
     questionAnswerList.value = []
   }
 
   return {
-    questions,
     prompt,
-    // file,
-    describeImage,
-    description,
+    miniGPTResponse,
     createPrompt,
-    gptResponse,
-    isDescribing,
-    // filepath,
+    isThinking,
     imageURL,
-    numQuestions,
     question,
     clearChat,
     questionAnswerList

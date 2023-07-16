@@ -85,7 +85,7 @@ app.post('/minigpt', async (req, res) => {
         }
       }
     )
-    res.send({ apiCall: miniGPTResponse })
+    res.send({ message: miniGPTResponse })
   } catch (e) {
     console.log('error', e)
   }
