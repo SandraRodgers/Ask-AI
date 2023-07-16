@@ -14,18 +14,11 @@ const imageChatStore = useImageChatStore()
 
       <img class="w-80 mt-10" :src="imageChatStore.imageURL" />
     </div>
-    <div>
+    <div class="min-h-80 flex flex-col justify-between">
       <chat-window-image />
-
-      <div
-        v-if="imageChatStore.description.length > 0"
-        class="block w-full rounded-md border-0 bg-green-900 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:p-4 sm:text-sm sm:leading-6 text-sm my-4"
-      >
-        {{ imageChatStore.description }}
+      <div class="flex justify-end">
+        <button @click="imageChatStore.clearChat()" class="button button-secondary">Clear</button>
       </div>
     </div>
   </article>
-  <div class="flex justify-end">
-    <button @click="imageChatStore.clearChat()" class="button button-secondary">Clear</button>
-  </div>
 </template>

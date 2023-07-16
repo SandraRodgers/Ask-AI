@@ -53,12 +53,12 @@ export const useAudioChatStore = defineStore('audioChat', () => {
       instructions.content + transcriptToAnalyze.content + chatQuestion.content
     )
 
-    // if (transcript.value) {
-    sendPrompt()
-    // } else {
-    //   alert('Please transcribe an audio file.')
-    //   prompt.value = []
-    // }
+    if (transcript.value) {
+      sendPrompt()
+    } else {
+      alert('Please transcribe an audio file.')
+      prompt.value = []
+    }
   }
 
   function sendPrompt() {
