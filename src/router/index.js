@@ -31,9 +31,4 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(() => {
-  const tokenizeStore = useTokenizeStore()
-  tokenizeStore.tokenLength = 0
-})
-
 export default router
