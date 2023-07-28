@@ -1,5 +1,7 @@
 # AI-Powered-App
 
+![Screenshot of the AI-Powered App](./src/assets/demo.png)
+
 This is a project that demonstrates how to use several AI technologies:
 
 - OpenAI chat completion API
