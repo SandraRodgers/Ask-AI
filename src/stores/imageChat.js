@@ -14,7 +14,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
   function createPrompt() {
     isThinking.value = true
     tokenizeStore.checkTokens(imageURL.value + question.value)
-    fetch('http://localhost:3000/minigpt', {
+    fetch('http://localhost:3000/replicate-chain', {
       method: 'POST',
       body: JSON.stringify({
         image: imageURL.value,
