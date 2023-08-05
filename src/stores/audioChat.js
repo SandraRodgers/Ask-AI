@@ -23,6 +23,12 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     }
   }
 
+  function createPrompt() {}
+
+  function sendPrompt() {}
+
+  function clearChat() {}
+
   return {
     file,
     transcribeFile,
