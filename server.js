@@ -89,3 +89,11 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+////// LangChain Config here //////
+
+// langchain endpoint
+app.post('/chain', async (req, res) => {})
+
+// clear memory endpoint
+app.get('/clear-chain', async (req, res) => {})

@@ -57,8 +57,8 @@ export const useAudioChatStore = defineStore('audioChat', () => {
 
   function sendPrompt() {
     isLoadingGPT.value = true
-
-    fetch('http://localhost:3000/chat', {
+    // change endpoint for langchain
+    fetch('http://localhost:3000/chain', {
       method: 'POST',
       body: JSON.stringify({
         messages: prompt.value
