@@ -40,16 +40,23 @@ Add API keys to the `.env` file as you see in the `.env-example` file. Go to eac
 npm run start
 ```
 
-### To see the Langchain features, switch to the `lang-chain` branch
+### To see the Langchain features, switch to the `langchain` branch
 
 ```
-git checkout lang-chain
+git checkout langchain
 ```
 
 ### To see the starter code before the features have been added, switch to the `starting-code` branch
 
 ```
 git checkout starting-code
+```
+
+### To see starting code and ending code for each chapter, switch to the chapter number + "start" or "end"
+
+```
+git checkout 03-start
+git checkout 03-end
 ```
 
 ### Questions
