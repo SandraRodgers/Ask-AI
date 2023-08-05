@@ -61,4 +61,9 @@ app.post('/tokenize', async (req, res) => {
   }
 })
 
+////// Deepgram config here //////
+
+// Deepgram transcription endpoint
+app.post('/dg-transcription', async (req, res) => {})
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
