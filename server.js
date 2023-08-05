@@ -157,6 +157,8 @@ app.get('/clear-chain', async (req, res) => {
   })
 })
 
+////// Replicate + Langchain config //////
+
 const { Replicate } = require('langchain/llms/replicate')
 
 const replicateModel = new Replicate({
@@ -193,6 +195,15 @@ app.post('/replicate-chain', async (req, res) => {
       message: nextResponse.response
     })
   }
+})
+
+app.get('/clear-replichain', async (req, res) => {
+  replicateMemory.clear()
+  replicateChainNum = 0
+  return res.status(200).json({
+    success: true,
+    message: 'Memory is clear!'
+  })
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
