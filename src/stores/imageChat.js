@@ -37,6 +37,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
     question.value = ''
     imageURL.value = ''
     questionAnswerList.value = []
+    // clear memory in server:
+    fetch('http://localhost:3000/clear-replichain').then((response) => response.json())
   }
 
   return {
