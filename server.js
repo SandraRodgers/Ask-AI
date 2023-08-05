@@ -40,10 +40,25 @@ app.post('/chat', async (req, res) => {
 })
 
 ////// Token Counter //////
-////// require gpt-3-encoder here
+const { encode } = require('gpt-3-encoder')
 
+// Token Counter
 app.post('/tokenize', async (req, res) => {
-  // gpt-3-encoder logic goes here
+  const str = req.body.stringToTokenize
+  try {
+    if (str == null) {
+      throw new Error('No string was provided')
+    }
+    const encoded = encode(str)
+    const length = encoded.length
+    console.log('Token count is ' + length)
+    return res.status(200).json({
+      success: true,
+      tokens: length
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
