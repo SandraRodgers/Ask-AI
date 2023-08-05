@@ -162,47 +162,6 @@ app.post('/minigpt', async (req, res) => {
 
 const { Replicate } = require('langchain/llms/replicate')
 
-const replicateModel = new Replicate({
-  model: 'daanelson/minigpt-4:b96a2f33cc8e4b0aa23eacfce731b9c41a7d9466d9ed4e167375587b54db9423',
-  apiKey: process.env.REPLICATE
-})
+app.post('/replicate-chain', async (req, res) => {})
 
-const replicateMemory = new BufferMemory()
-const replicateChain = new ConversationChain({ llm: replicateModel, memory: replicateMemory })
-let replicateChainNum = 0
-
-app.post('/replicate-chain', async (req, res) => {
-  console.log(req.body)
-  replicateChainNum++
-  console.log(replicateChainNum)
-  if (replicateChainNum === 1) {
-    // send image only on first request
-    replicateModel.input.image = req.body.image
-    const firstResponse = await replicateChain.call({ input: req.body.prompt })
-    console.log(firstResponse)
-    return res.status(200).json({
-      success: true,
-      message: firstResponse.response
-    })
-  } else {
-    console.log('else statement')
-
-    const nextResponse = await replicateChain.call({
-      input: req.body.prompt
-    })
-    console.log(nextResponse)
-    return res.status(200).json({
-      success: true,
-      message: nextResponse.response
-    })
-  }
-})
-
-app.get('/clear-replichain', async (req, res) => {
-  replicateMemory.clear()
-  replicateChainNum = 0
-  return res.status(200).json({
-    success: true,
-    message: 'Memory is clear!'
-  })
-})
+app.get('/clear-replichain', async (req, res) => {})
