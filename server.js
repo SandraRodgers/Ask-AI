@@ -2,6 +2,8 @@ const envConfig = require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const multer = require('multer')
+const upload = multer()
 
 const port = 3000
 const app = express()
@@ -61,9 +63,29 @@ app.post('/tokenize', async (req, res) => {
   }
 })
 
-////// Deepgram config here //////
+////// Deepgram config //////
+const { Deepgram } = require('@deepgram/sdk')
+const deepgram = new Deepgram(process.env.DG_API)
 
-// Deepgram transcription endpoint
-app.post('/dg-transcription', async (req, res) => {})
+// Deepgram transcription
+app.post('/dg-transcription', upload.single('file'), async (req, res) => {
+  try {
+    console.log(req.file)
+    const dgResponse = await deepgram.transcription.preRecorded(
+      {
+        buffer: req.file.buffer,
+        mimetype: req.file.mimetype
+      },
+      {
+        punctuate: true,
+        model: 'nova'
+      }
+    )
+    console.dir(dgResponse.results, { depth: 4 })
+    res.send({ transcript: dgResponse })
+  } catch (e) {
+    console.log('error', e)
+  }
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
