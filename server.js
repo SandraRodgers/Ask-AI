@@ -88,8 +88,6 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
   }
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-
 ////// LangChain Config //////
 const { OpenAI } = require('langchain/llms/openai')
 const { BufferMemory } = require('langchain/memory')
@@ -165,3 +163,5 @@ const { Replicate } = require('langchain/llms/replicate')
 app.post('/replicate-chain', async (req, res) => {})
 
 app.get('/clear-replichain', async (req, res) => {})
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
