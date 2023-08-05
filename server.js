@@ -149,6 +149,7 @@ app.post('/chain', async (req, res) => {
 })
 
 app.get('/clear-chain', async (req, res) => {
+  memory.clear()
   chainNum = 0
   return res.status(200).json({
     success: true,
