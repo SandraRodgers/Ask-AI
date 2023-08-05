@@ -133,3 +133,8 @@ app.get('/clear-chain', async (req, res) => {
     message: 'Memory is clear!'
   })
 })
+
+////// Replicate config //////
+
+// Replicate (minigpt) image analyzer
+app.post('/minigpt', async (req, res) => {})
