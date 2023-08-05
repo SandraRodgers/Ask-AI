@@ -63,6 +63,8 @@ function sendQuestion() {
         {{ textChatStore.gptResponse }}
       </div>
     </div>
+    <!-- Token Count goes here -->
+    <div></div>
   </article>
   <!-- Clear button to reset all the data -->
   <div class="flex justify-end">

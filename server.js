@@ -39,4 +39,11 @@ app.post('/chat', async (req, res) => {
   }
 })
 
+////// Token Counter //////
+////// require gpt-3-encoder here
+
+app.post('/tokenize', async (req, res) => {
+  // gpt-3-encoder logic goes here
+})
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
