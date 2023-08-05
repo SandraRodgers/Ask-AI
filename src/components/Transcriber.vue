@@ -10,7 +10,6 @@ const audioChatStore = useAudioChatStore()
     <button @click="audioChatStore.transcribeFile()" class="button button-primary">
       Transcribe
     </button>
-    <loading :loadingState="audioChatStore.isTranscribing" loadingMessage="Transcribing..." />
   </div>
   <div
     v-if="audioChatStore.transcript.length > 0"
