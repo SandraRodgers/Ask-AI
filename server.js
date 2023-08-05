@@ -90,10 +90,46 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
-////// LangChain Config here //////
+////// LangChain Config //////
+const { OpenAI } = require('langchain/llms/openai')
+const { BufferMemory } = require('langchain/memory')
+const { ConversationChain } = require('langchain/chains')
 
-// langchain endpoint
-app.post('/chain', async (req, res) => {})
+const model = new OpenAI({})
+const memory = new BufferMemory()
+const chain = new ConversationChain({ llm: model, memory: memory })
+let chainNum = 0
 
-// clear memory endpoint
-app.get('/clear-chain', async (req, res) => {})
+app.post('/chain', async (req, res) => {
+  chainNum++
+  const messages = req.body.messages
+  console.log(chainNum)
+  if (chainNum === 1) {
+    const firstResponse = await chain.call({ input: messages[0].content })
+    console.log(firstResponse)
+    const secondResponse = await chain.call({ input: messages[1].content })
+    console.log(secondResponse)
+    const thirdResponse = await chain.call({ input: messages[2].content })
+    console.log(thirdResponse)
+    return res.status(200).json({
+      success: true,
+      message: thirdResponse.response
+    })
+  } else {
+    const nextResponse = await chain.call({ input: messages[2].content })
+    console.log(nextResponse)
+    return res.status(200).json({
+      success: true,
+      message: nextResponse.response
+    })
+  }
+})
+
+app.get('/clear-chain', async (req, res) => {
+  memory.clear()
+  chainNum = 0
+  return res.status(200).json({
+    success: true,
+    message: 'Memory is clear!'
+  })
+})

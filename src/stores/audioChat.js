@@ -7,8 +7,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const gptResponse = ref('')
   const transcript = ref('')
   const question = ref('')
-  const isTranscribing = ref(false)
-  const isLoadingGPT = ref(false)
   const clearFile = ref(false)
   const questionAnswerList = ref([])
 
@@ -18,7 +16,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     } else {
       const formData = new FormData()
       formData.append('file', file.value.value)
-      isTranscribing.value = true
       fetch('http://localhost:3000/dg-transcription', {
         method: 'POST',
         body: formData
@@ -27,8 +24,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
         .then((data) => {
           transcript.value = data.transcript.results.channels[0].alternatives[0].transcript
           file.value = {}
-
-          isTranscribing.value = false
         })
     }
   }
@@ -56,8 +51,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   }
 
   function sendPrompt() {
-    isLoadingGPT.value = true
-    // change endpoint for langchain
     fetch('http://localhost:3000/chain', {
       method: 'POST',
       body: JSON.stringify({
@@ -69,12 +62,11 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        isLoadingGPT.value = false
         gptResponse.value = data.message.content
         // array to save the conversation
         questionAnswerList.value.push({
           question: question.value,
-          answer: data.message.content
+          answer: data.message
         })
         question.value = ''
       })
@@ -86,10 +78,10 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     gptResponse.value = ''
     transcript.value = ''
     question.value = ''
-    isTranscribing.value = false
-    isLoadingGPT.value = false
     clearFile.value = true
     questionAnswerList.value = []
+    // clear memory in server:
+    fetch('http://localhost:3000/clear-chain').then((response) => response.json())
   }
 
   return {
@@ -101,8 +93,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     transcribeFile,
     transcript,
     question,
-    isTranscribing,
-    isLoadingGPT,
     clearChat,
     clearFile,
     questionAnswerList
