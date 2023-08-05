@@ -9,7 +9,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const questionAnswerList = ref([])
 
   function createPrompt() {
-    fetch('http://localhost:3000/minigpt', {
+    // use replicate + langchain endpoint
+    fetch('http://localhost:3000/replicate-chain', {
       method: 'POST',
       body: JSON.stringify({
         image: imageURL.value,

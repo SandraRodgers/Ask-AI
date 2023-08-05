@@ -157,3 +157,10 @@ app.post('/minigpt', async (req, res) => {
     console.log('error', e)
   }
 })
+
+////// Replicate + Langchain config //////
+
+// replicate + langchain endpoint
+app.post('/replicate-chain', async (req, res) => {})
+
+app.get('/clear-replichain', async (req, res) => {})
