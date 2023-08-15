@@ -13,10 +13,8 @@ watch(clearFile, () => {
 })
 
 onChange((file) => {
-  if (file[0].type.startsWith('audio')) {
-    audioChatStore.file.value = file[0]
-    audioChatStore.clearFile = false
-  }
+  audioChatStore.file.value = file[0]
+  audioChatStore.clearFile = false
 })
 
 function resetFile() {
