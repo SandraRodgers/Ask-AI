@@ -4,7 +4,6 @@ import { useFileDialog } from '@vueuse/core'
 import { useAudioChatStore } from '../stores/audioChat'
 import { storeToRefs } from 'pinia'
 const audioChatStore = useAudioChatStore()
-const props = defineProps(['fileType'])
 const { files, open, reset, onChange } = useFileDialog()
 const { clearFile } = storeToRefs(audioChatStore)
 
