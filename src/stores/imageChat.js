@@ -9,7 +9,6 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const questionAnswerList = ref([])
 
   function createPrompt() {
-    tokenizeStore.checkTokens(imageURL.value + question.value)
     fetch('http://localhost:3000/replicate-chain', {
       method: 'POST',
       body: JSON.stringify({
