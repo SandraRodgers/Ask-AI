@@ -43,25 +43,19 @@ app.post('/chat', async (req, res) => {
 })
 
 ////// Deepgram config //////
-const { Deepgram } = require('@deepgram/sdk')
-const deepgram = new Deepgram(process.env.DG_API)
+const { createClient } = require('@deepgram/sdk')
+const deepgram = createClient(process.env.DG_API)
 
 // Deepgram transcription
 app.post('/dg-transcription', upload.single('file'), async (req, res) => {
   try {
-    console.log(req.file)
-    const dgResponse = await deepgram.transcription.preRecorded(
-      {
-        buffer: req.file.buffer,
-        mimetype: req.file.mimetype
-      },
-      {
-        punctuate: true,
-        model: 'nova'
-      }
-    )
-    console.dir(dgResponse.results, { depth: 4 })
-    res.send({ transcript: dgResponse })
+    const { result, error } = await deepgram.listen.prerecorded.transcribeFile(req.file.buffer, {
+      punctuate: true,
+      model: 'nova'
+    })
+    if (error) throw error
+    console.dir(result)
+    res.send({ transcript: result })
   } catch (e) {
     console.log('error', e)
   }
