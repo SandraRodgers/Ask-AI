@@ -2,6 +2,8 @@
   "name": "ai-powered-app",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
+  "description": "A Node.js and Vue.js app that uses the OpenAI API and other AI technologies to generate text based on user input.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
