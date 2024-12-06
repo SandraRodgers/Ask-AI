@@ -11,11 +11,11 @@ app.use(cors())
 app.use(bodyParser.json())
 
 ////// OpenAI config //////
-const { OpenAI } = require('openai')
-
-const client = new OpenAI({
+const { Configuration, OpenAIApi } = require('openai')
+const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
 })
+const openai = new OpenAIApi(configuration)
 
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
@@ -26,15 +26,37 @@ app.post('/chat', async (req, res) => {
       throw new Error('We have a problem - no prompt was provided')
     }
 
-    const response = await client.chat.completions.create({
+    const response = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages
     })
-    const completion = response.choices[0].message
-    console.dir(response.choices[0], { depth: 4 })
+    const completion = response.data.choices[0].message
+    console.dir(response.data.choices[0])
     return res.status(200).json({
       success: true,
       message: completion
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
+})
+
+////// Token Counter //////
+const { encode } = require('gpt-3-encoder')
+
+// Token Counter
+app.post('/tokenize', async (req, res) => {
+  const str = req.body.stringToTokenize
+  try {
+    if (str == null) {
+      throw new Error('No string was provided')
+    }
+    const encoded = encode(str)
+    const length = encoded.length
+    console.log('Token count is ' + length)
+    return res.status(200).json({
+      success: true,
+      tokens: length
     })
   } catch (error) {
     console.log(error.message)
@@ -69,55 +91,8 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
   }
 })
 
-////// Token Counter //////
-const { encode } = require('gpt-3-encoder')
-
-// Token Counter
-app.post('/tokenize', async (req, res) => {
-  const str = req.body.stringToTokenize
-  try {
-    if (str == null) {
-      throw new Error('No string was provided')
-    }
-    const encoded = encode(str)
-    const length = encoded.length
-    console.log('Token count is ' + length)
-    return res.status(200).json({
-      success: true,
-      tokens: length
-    })
-  } catch (error) {
-    console.log(error.message)
-  }
-})
-
-////// Deepgram config //////
-const { Deepgram } = require('@deepgram/sdk')
-const deepgram = new Deepgram(process.env.DG_API)
-
-// Deepgram transcription
-app.post('/dg-transcription', upload.single('file'), async (req, res) => {
-  try {
-    console.log(req.file)
-    const dgResponse = await deepgram.transcription.preRecorded(
-      {
-        buffer: req.file.buffer,
-        mimetype: req.file.mimetype
-      },
-      {
-        punctuate: true,
-        model: 'nova'
-      }
-    )
-    console.dir(dgResponse.results, { depth: 4 })
-    res.send({ transcript: dgResponse })
-  } catch (e) {
-    console.log('error', e)
-  }
-})
-
 ////// LangChain Config //////
-const { OpenAI } = require('langchain/llms/openai')
+const { OpenAI: OpenAIClient } = require('@langchain/openai')
 const { BufferMemory } = require('langchain/memory')
 const { ConversationChain } = require('langchain/chains')
 
