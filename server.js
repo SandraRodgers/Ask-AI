@@ -92,7 +92,7 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
 })
 
 ////// LangChain Config //////
-const { ChatOpenAI: OpenAIClient } = require('@langchain/openai')
+const { OpenAI: OpenAIClient } = require('@langchain/openai')
 const { BufferMemory } = require('langchain/memory')
 const { ConversationChain } = require('langchain/chains')
 
