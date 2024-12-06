@@ -9,11 +9,11 @@ app.use(cors())
 app.use(bodyParser.json())
 
 ////// OpenAI config //////
-const { Configuration, OpenAIApi } = require('openai')
-const configuration = new Configuration({
+const { OpenAI } = require('openai')
+
+const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
-const openai = new OpenAIApi(configuration)
 
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
@@ -24,12 +24,12 @@ app.post('/chat', async (req, res) => {
       throw new Error('We have a problem - no prompt was provided')
     }
 
-    const response = await openai.createChatCompletion({
+    const response = await client.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages
     })
-    const completion = response.data.choices[0].message
-    console.dir(response.data.choices[0])
+    const completion = response.choices[0].message
+    console.dir(response.choices[0], { depth: 4 })
     return res.status(200).json({
       success: true,
       message: completion
