@@ -96,7 +96,7 @@ const { OpenAI: OpenAIClient } = require('@langchain/openai')
 const { BufferMemory } = require('langchain/memory')
 const { ConversationChain } = require('langchain/chains')
 
-const model = new OpenAI({})
+const model = new OpenAIClient({})
 const memory = new BufferMemory()
 const chain = new ConversationChain({ llm: model, memory: memory })
 let chainNum = 0
