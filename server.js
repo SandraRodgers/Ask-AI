@@ -117,7 +117,7 @@ app.post('/tokenize', async (req, res) => {
 })
 
 ////// LangChain Config //////
-const { OpenAI: OpenAIClient } = require('langchain/llms/openai')
+const { OpenAI: OpenAIClient } = require('@langchain/openai')
 const { BufferMemory } = require('langchain/memory')
 const { ConversationChain } = require('langchain/chains')
 
