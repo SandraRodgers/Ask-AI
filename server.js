@@ -11,11 +11,11 @@ app.use(cors())
 app.use(bodyParser.json())
 
 ////// OpenAI config //////
-const { Configuration, OpenAIApi } = require('openai')
-const configuration = new Configuration({
+const { OpenAI } = require('openai')
+
+const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
-const openai = new OpenAIApi(configuration)
 
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
@@ -26,18 +26,46 @@ app.post('/chat', async (req, res) => {
       throw new Error('We have a problem - no prompt was provided')
     }
 
-    const response = await openai.createChatCompletion({
+    const response = await client.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages
     })
-    const completion = response.data.choices[0].message
-    console.dir(response.data.choices[0])
+    const completion = response.choices[0].message
+    console.dir(response.choices[0], { depth: 4 })
     return res.status(200).json({
       success: true,
       message: completion
     })
   } catch (error) {
     console.log(error.message)
+  }
+})
+
+////// Deepgram config //////
+const { createClient } = require('@deepgram/sdk')
+const deepgram = createClient(process.env.DG_API)
+
+// Deepgram transcription
+app.post('/dg-transcription', upload.single('file'), async (req, res) => {
+  try {
+    console.log(req.file)
+    if (!req.file) {
+      return res.status(400).send('No file uploaded')
+    }
+
+    const audioBuffer = req.file.buffer
+
+    const response = await deepgram.listen.prerecorded.transcribeFile(audioBuffer, {
+      punctuate: true,
+      model: 'nova-2'
+    })
+
+    console.dir(response, { depth: 4 })
+
+    res.send({ transcript: response.result })
+  } catch (e) {
+    console.error('Error:', e)
+    res.status(500).send('An error occurred during transcription')
   }
 })
 
