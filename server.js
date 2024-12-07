@@ -11,11 +11,11 @@ app.use(cors())
 app.use(bodyParser.json())
 
 ////// OpenAI config //////
-const { Configuration, OpenAIApi } = require('openai')
-const configuration = new Configuration({
+const { OpenAI } = require('openai')
+
+const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
-const openai = new OpenAIApi(configuration)
 
 // OpenAI chat completion
 app.post('/chat', async (req, res) => {
@@ -26,12 +26,12 @@ app.post('/chat', async (req, res) => {
       throw new Error('We have a problem - no prompt was provided')
     }
 
-    const response = await openai.createChatCompletion({
+    const response = await client.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages
     })
-    const completion = response.data.choices[0].message
-    console.dir(response.data.choices[0])
+    const completion = response.choices[0].message
+    console.dir(response.choices[0], { depth: 4 })
     return res.status(200).json({
       success: true,
       message: completion
@@ -96,7 +96,8 @@ const { OpenAI: OpenAIClient } = require('@langchain/openai')
 const { BufferMemory } = require('langchain/memory')
 const { ConversationChain } = require('langchain/chains')
 
-const model = new OpenAIClient({})
+// Specify the model here
+const model = new OpenAIClient({ model: 'gpt-3.5-turbo' }) // or 'gpt-4' if you have access
 const memory = new BufferMemory()
 const chain = new ConversationChain({ llm: model, memory: memory })
 let chainNum = 0
@@ -136,13 +137,13 @@ app.get('/clear-chain', async (req, res) => {
 })
 
 ////// Replicate config //////
-const ReplicateAPI = require('replicate')
-const replicate = new ReplicateAPI({
+const Replicate = require('replicate')
+const replicate = new Replicate({
   auth: process.env.REPLICATE
 })
 
 const miniGPT =
-  'daanelson/minigpt-4:b96a2f33cc8e4b0aa23eacfce731b9c41a7d9466d9ed4e167375587b54db9423'
+  'daanelson/minigpt-4:e447a8583cffd86ce3b93f9c2cd24f2eae603d99ace6afa94b33a08e94a3cd06'
 
 // Replicate (minigpt) image analyzer
 app.post('/minigpt', async (req, res) => {
@@ -158,13 +159,5 @@ app.post('/minigpt', async (req, res) => {
     console.log('error', e)
   }
 })
-
-////// Replicate + Langchain config //////
-
-const { Replicate } = require('langchain/llms/replicate')
-
-app.post('/replicate-chain', async (req, res) => {})
-
-app.get('/clear-replichain', async (req, res) => {})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
