@@ -77,7 +77,7 @@ const replicate = new Replicate({
 })
 
 const miniGPT =
-  'daanelson/minigpt-4:b96a2f33cc8e4b0aa23eacfce731b9c41a7d9466d9ed4e167375587b54db9423'
+  'daanelson/minigpt-4:e447a8583cffd86ce3b93f9c2cd24f2eae603d99ace6afa94b33a08e94a3cd06'
 
 // Replicate (minigpt) image analyzer
 app.post('/minigpt', async (req, res) => {
