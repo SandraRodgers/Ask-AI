@@ -97,7 +97,7 @@ const { BufferMemory } = require('langchain/memory')
 const { ConversationChain } = require('langchain/chains')
 
 // Specify the model here
-const model = new OpenAIClient({ model: 'gpt-3.5-turbo' }) // or 'gpt-4' if you have access
+const model = new OpenAIClient({})
 const memory = new BufferMemory()
 const chain = new ConversationChain({ llm: model, memory: memory })
 let chainNum = 0
