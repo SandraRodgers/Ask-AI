@@ -94,11 +94,11 @@ app.post('/dg-transcription', upload.single('file'), async (req, res) => {
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 ////// LangChain Config //////
-const { OpenAI } = require('langchain/llms/openai')
+const { OpenAI: OpenAIClient } = require('@langchain/openai')
 const { BufferMemory } = require('langchain/memory')
 const { ConversationChain } = require('langchain/chains')
 
-const model = new OpenAI({})
+const model = new OpenAIClient({})
 const memory = new BufferMemory()
 const chain = new ConversationChain({ llm: model, memory: memory })
 let chainNum = 0
