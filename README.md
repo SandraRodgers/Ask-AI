@@ -63,7 +63,7 @@ git checkout 03-end
 
 If you have any questions, you can reach out to me on [twitter](https://twitter.com/sandra_rodgers_)
 
-## December 2024 Updates
+# December 2024 Updates
 
 Updates were made in December 2024 due to breaking changes to the OpenAI, Deepgram, and Replicate APIs. These are explanations of the changes that were made.
 
